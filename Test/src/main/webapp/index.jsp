@@ -67,9 +67,7 @@
 <!-- Table to display details of registered customers  -->
 
 <div id="divCustomersGrid">
- <%
-  
- %>
+ 
 </div>
 
 </div> 
