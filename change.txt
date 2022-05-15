@@ -1,0 +1,96 @@
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String jsonBody = new BufferedReader(new InputStreamReader(request.getInputStream())).lines()
+				.collect(Collectors.joining("\n"));
+		if (jsonBody == null || jsonBody.trim().length() == 0) {
+
+			response.getWriter().write("No data is received!");
+		}
+
+		// this parses the incoming json to a json object.
+		JSONObject noticeDataObj = new JSONObject(jsonBody);
+
+		String output = noticeObj.insertNotice(noticeDataObj.getString("userId"),
+				noticeDataObj.getString("noticeSubject"), noticeDataObj.getString("noticeBody"));
+
+		response.getWriter().write(output);
+
+		// doGet(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
+	 */
+	protected void doPut(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String jsonBody = new BufferedReader(new InputStreamReader(request.getInputStream())).lines()
+				.collect(Collectors.joining("\n"));
+		if (jsonBody == null || jsonBody.trim().length() == 0) {
+
+			response.getWriter().write("No data is received!");
+		}
+
+		// this parses the incoming json to a json object.
+		JSONObject noticeDataObj = new JSONObject(jsonBody);
+		String output = noticeObj.updateNotice(noticeDataObj.getString("hidNoticeIDSave"),
+				noticeDataObj.getString("userId"), noticeDataObj.getString("noticeSubject"),
+				noticeDataObj.getString("noticeBody"));
+
+		response.getWriter().write(output);
+	}
+
+
+
+
+
+
+
+
+
+
+// Convert request parameters to a Map
+	private static Map getParasMap(HttpServletRequest request) {
+		Map<String, String> map = new HashMap<String, String>();
+		try {
+			Scanner scanner = new Scanner(request.getInputStream(), "UTF-8");
+			String queryString = scanner.hasNext() ? scanner.useDelimiter("\\A").next() : "";
+			scanner.close();
+			String[] params = queryString.split("&");
+			for (String param : params) {
+				String[] p = param.split("=");
+				map.put(p[0], p[1]);
+			}
+		} catch (Exception e) {
+		}
+		return map;
+	}
+-----------------------------------------------------------------------------------------------
+// If valid------------------------
+	var type = ($("#hidNoticeIDSave").val() == "") ? "POST" : "PUT";
+	var noticeObj = {
+		"userId" : $('#userId').val(),
+		"noticeSubject" : $('#noticeSubject').val(),
+		"noticeBody" : $('#noticeBody').val()
+	}
+
+	if (type == "PUT") {
+		noticeObj = {
+			"hidNoticeIDSave" : $('#hidNoticeIDSave').val(),
+			"userId" : $('#userId').val(),
+			"noticeSubject" : $('#noticeSubject').val(),
+			"noticeBody" : $('#noticeBody').val()
+		}
+	}
+	$.ajax({
+		url : "NoticesAPI",
+		type : type,
+		data : JSON.stringify(noticeObj),
+		contentType : "application/json",
+		dataType : 'json',
+		complete : function(response, status) {
+			onNoticeSaveComplete(response.responseText, status);
+		}
+	});
+});
