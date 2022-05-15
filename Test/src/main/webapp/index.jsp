@@ -15,11 +15,13 @@
 <script src="Components/jquery-3.6.0.min.js"></script>
 <script src="Components/customers.js"></script>
 
+
 </head>
 <body>
 <div class="container"><div class="row"><div class="col-6"> 
 <br><br>
 
+<!-- Customer Registration From -->
 <!-- Customer Registration From -->
 
 <h1>Customer Registration : </h1>
