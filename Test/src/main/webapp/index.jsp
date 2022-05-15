@@ -58,6 +58,7 @@
 		 class="btn btn-primary">
 		 <input type="hidden" id="hidCustomerIDSave" 
 		 name="hidCustomerIDSave" value="">
+		 
 		</form>
 		
 		<div id="alertSuccess" class="alert alert-success"></div>
